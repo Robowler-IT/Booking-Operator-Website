@@ -6,16 +6,19 @@ import { createClient } from '@/lib/supabase/client'
 import ThemeToggle from '@/components/ThemeToggle'
 
 export default function LoginPage() {
-  const supabase = createClient()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const hasEnv = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabase = hasEnv ? createClient() : null
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email || !password) { setError('Email and password required'); return }
+    if (!supabase) { setError('Configuration error. Contact admin.'); return }
     setLoading(true)
     setError('')
     const { error: err } = await supabase.auth.signInWithPassword({ email, password })
@@ -73,9 +76,16 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Form area */}
+            {/* Form area */}
         <div className="flex-1 flex items-center justify-center px-6 py-12">
           <div className="w-full max-w-sm">
+
+            {!hasEnv && (
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/40 rounded-xl p-4 mb-6">
+                <p className="text-yellow-700 dark:text-yellow-400 text-sm font-semibold">Configuration Required</p>
+                <p className="text-yellow-600 dark:text-yellow-500 text-xs mt-1">Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel environment variables.</p>
+              </div>
+            )}
 
             {/* Heading */}
             <div className="mb-8">
