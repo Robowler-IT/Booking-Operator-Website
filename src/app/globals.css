@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(34, 197, 94, 0.25);
+    color: inherit;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+  .dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+  .dark ::-webkit-scrollbar-thumb { background: #1f1f1f; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   All theme-sensitive utilities use plain CSS with .dark selector
+   NEVER use @apply dark: inside @layer components — it doesn't work
+───────────────────────────────────────────────────────────────── */
+
+/* Primary button — green, same on both themes */
+.btn-primary {
+  @apply bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2.5 rounded-xl
+         transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400
+         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+         inline-flex items-center gap-2;
+}
+
+/* Secondary button */
+.btn-secondary {
+  @apply bg-transparent font-semibold px-5 py-2.5 rounded-xl transition-all duration-200
+         focus:outline-none active:scale-95 inline-flex items-center gap-2;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+.btn-secondary:hover { border-color: #64748b; color: #0f172a; background: #f8fafc; }
+.dark .btn-secondary { border-color: rgba(255,255,255,0.12); color: #d1d5db; }
+.dark .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: #fff; background: #1a1a1a; }
+
+/* Danger button */
+.btn-danger {
+  @apply bg-red-500 hover:bg-red-600 text-white font-bold px-5 py-2.5 rounded-xl
+         transition-all duration-200 inline-flex items-center gap-2;
+}
+
+/* Card */
+.card-dark {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+}
+.dark .card-dark {
+  background-color: #111111;
+  border-color: #1f1f1f;
+}
+
+/* Input / Select */
+.input-dark {
+  @apply w-full rounded-xl px-4 py-3 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+.input-dark::placeholder { color: #94a3b8; }
+.input-dark:focus { border-color: #22c55e; }
+.dark .input-dark { background-color: #0f0f0f; border-color: #2a2a2a; color: #fff; }
+.dark .input-dark::placeholder { color: #4b5563; }
+
+/* Badge helpers */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider;
+}
+.badge-green { background: rgba(34,197,94,0.1); color: #16a34a; }
+.dark .badge-green { background: rgba(34,197,94,0.12); color: #4ade80; }
+.badge-amber { background: rgba(245,158,11,0.1); color: #b45309; }
+.dark .badge-amber { background: rgba(245,158,11,0.12); color: #fbbf24; }
+.badge-slate { background: #f1f5f9; color: #64748b; }
+.dark .badge-slate { background: #1a1a1a; color: #6b7280; }
+.badge-blue { background: rgba(59,130,246,0.1); color: #1d4ed8; }
+.dark .badge-blue { background: rgba(59,130,246,0.12); color: #60a5fa; }
+
+/* Stat card accent borders */
+.stat-card-green { border-left: 3px solid #22c55e; }
+.stat-card-amber { border-left: 3px solid #f59e0b; }
+.stat-card-blue  { border-left: 3px solid #3b82f6; }
+.stat-card-white { border-left: 3px solid #94a3b8; }
+.dark .stat-card-white { border-left-color: #374151; }
+
+/* Modal overlay */
+.modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+}
